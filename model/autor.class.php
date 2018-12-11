@@ -19,7 +19,7 @@ class Autor
 		try
 		{
 			$result = array();                        
-			$stm = $this->conn->prepare("SELECT id_aut,nom_aut,fk_nacionalitat FROM autors ORDER BY $orderby");
+			$stm = $this->conn->prepare("SELECT id_aut,nom_aut,fk_nacionalitat FROM AUTORS ORDER BY $orderby");
 			$stm->execute();
             $tuples=$stm->fetchAll();
             $this->resposta->setDades($tuples);    // array de tuples
@@ -36,6 +36,22 @@ class Autor
     public function get($id)
     {
         //TODO
+        try
+        {
+            $result = array();
+            $stm = $this->conn->prepare("SELECT id_aut,nom_aut,fk_nacionalitat FROM AUTORS WHERE id_aut=$id");
+            $stm->execute();
+            $tuples=$stm->fetchAll();
+            $this->resposta->setDades($tuples);    // array de tuples
+            $this->resposta->setCorrecta(true);       // La resposta es correcta
+            return $this->resposta;
+        }
+        catch(Exception $e)
+        {   // hi ha un error posam la resposta a fals i tornam missatge d'error
+            $this->resposta->setCorrecta(false, $e->getMessage());
+            return $this->resposta;
+        }
+
     }
 
     
