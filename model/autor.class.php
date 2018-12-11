@@ -39,7 +39,8 @@ class Autor
         try
         {
             $result = array();
-            $stm = $this->conn->prepare("SELECT id_aut,nom_aut,fk_nacionalitat FROM AUTORS WHERE id_aut=$id");
+            $stm = $this->conn->prepare("SELECT id_aut,nom_aut,fk_nacionalitat FROM AUTORS WHERE id_aut=:id");
+            $stm->bindValue(':id',$id);
             $stm->execute();
             $tuples=$stm->fetchAll();
             $this->resposta->setDades($tuples);    // array de tuples
